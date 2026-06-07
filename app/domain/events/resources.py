@@ -6,13 +6,37 @@ from domain.events.base import BaseEvent
 
 @dataclass
 class NewAPIResourceCreatedEvent(BaseEvent):
-    title: ClassVar[str] = "New API Resource Created"
+    event_title: ClassVar[str] = "New API resource created"
 
     api_resource_oid: str
+    api_resource_title: str
 
 
 @dataclass
-class NewUIResourceCreatedEvent(BaseEvent):
-    title: ClassVar[str] = "New UI Resource Created"
+class NewControllerResourceCreatedEvent(BaseEvent):
+    event_title: ClassVar[str] = "New controller resource created"
 
-    ui_resource_oid: str
+    controller_resource_oid: str
+
+
+@dataclass
+class NewViewResourceCreatedEvent(BaseEvent):
+    event_title: ClassVar[str] = "New view resource created"
+
+    view_resource_oid: str
+
+
+@dataclass
+class NewMVCResourceCreatedEvent(BaseEvent):
+    event_title: ClassVar[str] = "New MVC resource created"
+
+    mvc_resource_oid: str
+    mvc_resource_title: str
+
+
+@dataclass
+class NewMVCResourcesBundleCreatedEvent(BaseEvent):
+    title: ClassVar[str] = "Created new bundle with MVC recources"
+
+    chat_oid: str
+    chat_title: str

@@ -6,6 +6,6 @@ from domain.events.base import BaseEvent
 
 @dataclass
 class NewOpenAPISpecReceivedEvent(BaseEvent):
-    event_title: ClassVar[str] = "New OpenAPI Spec Received"
+    event_title: ClassVar[str] = "New OpenAPI specification received"
 
     openapi_spec_oid: str
