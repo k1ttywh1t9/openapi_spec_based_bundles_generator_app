@@ -15,7 +15,7 @@ class OpenAPISpec(BaseEntity):
         new_openapi_spec = cls(data=data)
 
         new_openapi_spec.register_event(
-            NewOpenAPISpecReceivedEvent(
+            NewOpenAPISpecEntityCreatedEvent(
                 openapi_spec_oid=new_openapi_spec.oid,
             )
         )
