@@ -2,11 +2,17 @@ from abc import ABC
 from dataclasses import dataclass, field
 import re
 
-from domain.events.resources import NewAPIResourceCreatedEvent, NewControllerResourceCreatedEvent, NewMVCResourceCreatedEvent, NewMVCResourcesBundleCreatedEvent, NewViewResourceCreatedEvent
+from domain.events.resources import (
+    NewAPIResourceCreatedEvent,
+    NewControllerResourceCreatedEvent,
+    NewMVCResourceCreatedEvent,
+    NewMVCResourcesBundleCreatedEvent,
+    NewViewResourceCreatedEvent,
+)
 from domain.values.resources import Title
 from domain.values.resources import CodeContent
-from settings.config import Settings
 from domain.entities.base import BaseEntity
+
 
 @dataclass(eq=False)
 class APIResource(BaseEntity):
@@ -16,7 +22,7 @@ class APIResource(BaseEntity):
 
     @property
     def title(self) -> str:
-        title = re.sub(r'[^a-zA-Z0-9]', '_', self.path).strip('_')
+        title = re.sub(r"[^a-zA-Z0-9]", "_", self.path).strip("_")
         return title
 
     @classmethod
@@ -38,15 +44,15 @@ class ControllerResource(BaseEntity):
     handlers: CodeContent
 
     @classmethod
-    def create(cls, handlers: str):
-        new_resource = cls(handlers=handlers)
-        
+    def create(cls, handlers: str, lang: str) -> "ControllerResource":
+        code_vo = CodeContent.from_raw(body=handlers, lang=lang)
+
+        new_resource = cls(handlers=code_vo)
         new_resource.register_event(
             NewControllerResourceCreatedEvent(
                 controller_resource_oid=new_resource.oid,
             )
         )
-
         return new_resource
 
 
@@ -57,7 +63,7 @@ class ViewResource(BaseEntity):
     @classmethod
     def create(cls, template: str):
         new_resource = cls(template=template)
-        
+
         new_resource.register_event(
             NewViewResourceCreatedEvent(
                 view_resource_oid=new_resource.oid,
@@ -75,13 +81,13 @@ class MVCResource(BaseEntity):
 
     @property
     def title(self) -> str:
-        title = re.sub(r'[^a-zA-Z0-9]', '_', self.path).strip('_')
+        title = re.sub(r"[^a-zA-Z0-9]", "_", self.path).strip("_")
         return title
 
     @classmethod
     def create(cls, template: str):
         new_resource = cls(template=template)
-        
+
         new_resource.register_event(
             NewMVCResourceCreatedEvent(
                 mvc_resource_oid=new_resource.oid,
@@ -111,10 +117,11 @@ class MVCResourcesBundle(BaseEntity):
         )
         return new_bundle
 
-    def add_resource(self, resource: MVCResource):
-        self.messages.add(resource)
-        self.register_event(
-            NewResourceCreatedEvent(
-...wtf
-            ),
-        )
+
+#     def add_resource(self, resource: MVCResource):
+#         self.messages.add(resource)
+#         self.register_event(
+#             NewResourceCreatedEvent(
+# ...wtf
+#             ),
+#         )

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from langchain_openai import ChatOpenAI
 
-from app.infra.integrations.llm.models.openai import (
+from infra.integrations.llm.models.openai import (
     BaseLLMInstance,
     BaseLLMRequest,
     BaseLLMResponse,

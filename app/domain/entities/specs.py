@@ -1,8 +1,7 @@
 from dataclasses import dataclass
-import json
 
-from app.domain.events.specs import NewOpenAPISpecReceivedEvent
-from settings.config import Settings
+
+from domain.events.specs import NewOpenAPISpecEntityCreatedEvent
 from domain.entities.base import BaseEntity
 
 

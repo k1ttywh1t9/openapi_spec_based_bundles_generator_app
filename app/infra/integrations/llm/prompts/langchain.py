@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 
-from app.infra.integrations.llm.prompts.base import BaseLLMPrompt
+from infra.integrations.llm.prompts.base import BaseLLMPrompt
+
+
 
 
 @dataclass
