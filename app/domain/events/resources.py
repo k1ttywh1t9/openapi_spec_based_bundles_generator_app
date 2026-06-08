@@ -13,6 +13,14 @@ class NewAPIResourceCreatedEvent(BaseEvent):
 
 
 @dataclass
+class NewAPIResourcesBundleCreatedEvent(BaseEvent):
+    event_title: ClassVar[str] = "New Bundle of API resources created"
+
+    bundle_oid: str
+    bundle_title: str
+
+
+@dataclass
 class NewControllerResourceCreatedEvent(BaseEvent):
     event_title: ClassVar[str] = "New controller resource created"
 

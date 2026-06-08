@@ -4,6 +4,7 @@ import re
 
 from domain.events.resources import (
     NewAPIResourceCreatedEvent,
+    NewAPIResourcesBundleCreatedEvent,
     NewControllerResourceCreatedEvent,
     NewMVCResourceCreatedEvent,
     NewMVCResourcesBundleCreatedEvent,
@@ -37,6 +38,27 @@ class APIResource(BaseEntity):
         )
 
         return new_resource
+
+
+@dataclass(eq=False)
+class APIResourcesBundle(BaseEntity):
+    api_resources: set[APIResource] = field(
+        default_factory=set,
+        kw_only=True,
+    )
+    title: Title
+
+    @classmethod
+    def create(cls, title: Title) -> "APIResourcesBundle":
+        new_bundle = cls(title=title)
+        new_bundle.register_event(
+            NewAPIResourcesBundleCreatedEvent(
+                bundle_oid=new_bundle.oid,
+                bundle_title=new_bundle.title.as_generic_type(),
+            )
+        )
+
+        return new_bundle
 
 
 @dataclass(eq=False)

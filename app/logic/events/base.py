@@ -10,8 +10,6 @@ from typing import (
 )
 
 from domain.events.base import BaseEvent
-from infra.message_brokers.base import BaseMessageBroker
-from infra.websockets.managers import BaseConnectionManager
 
 ET = TypeVar("ET", bound=BaseEvent)
 ER = TypeVar("ER", bound=Any)

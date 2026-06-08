@@ -56,23 +56,3 @@ class NewOpenAPISpecReceivedFromBrokerEvent(IntegrationEvent):
     event_title: ClassVar[str] = "New OpenAPI Spec Received From Broker"
 
     openapi_spec_oid: str
-
-
-@dataclass
-class NewMessageReceivedFromBrokerEvent(IntegrationEvent):
-    event_title: ClassVar[str] = "New Message From Broker Received"
-
-    message_text: str
-    message_oid: str
-    chat_oid: str
-
-
-@dataclass
-class NewMessageReceivedFromBrokerEventHandler(
-    EventHandler[NewMessageReceivedFromBrokerEvent, None],
-):
-    async def handle(self, event: NewMessageReceivedFromBrokerEvent) -> None:
-        await self.connection_manager.send_all(
-            key=event.chat_oid,
-            bytes_=convert_event_to_broker_message(event=event),
-        )
