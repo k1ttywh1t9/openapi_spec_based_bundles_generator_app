@@ -10,6 +10,7 @@ from typing import (
 )
 
 from domain.events.base import BaseEvent
+from infra.message_brokers.base import BaseMessageBroker
 
 ET = TypeVar("ET", bound=BaseEvent)
 ER = TypeVar("ER", bound=Any)
@@ -22,8 +23,8 @@ class IntegrationEvent(BaseEvent, ABC): ...
 @dataclass
 class EventHandler(ABC, Generic[ET, ER]):
     message_broker: BaseMessageBroker
-    connection_manager: BaseConnectionManager
+    # connection_manager: BaseConnectionManager
     broker_topic: str | None = None
 
     @abstractmethod
-    def handle(self, event: ET) -> ER: ...
+    async def handle(self, event: ET) -> ER: ...

@@ -18,11 +18,10 @@ class ParseOpenAPISpecToEntityCommand(BaseCommand):
 class ParseOpenAPISpecToEntityCommandHandler(
     CommandHandler[ParseOpenAPISpecToEntityCommand, OpenAPISpec]
 ):
-    mediator: Mediator
     specs_repository: BaseOpenAPISpecsRepository
 
     async def handle(self, command: ParseOpenAPISpecToEntityCommand) -> OpenAPISpec:
-        if await self.specs_repository.check_spec_exists_by_title(command.title):
+        if await self.specs_repository.check_item_exists_by_title(command.title):
             raise OpenAPISpecWithThatTitleAlreadyExistsException(command.title)
 
         title = Title(value=command.title)
@@ -33,6 +32,6 @@ class ParseOpenAPISpecToEntityCommandHandler(
 
         events = new_openapi_spec.pull_events()
 
-        await self.mediator.publish(events=events)
+        await self._mediator.publish(events=events)
 
         return new_openapi_spec

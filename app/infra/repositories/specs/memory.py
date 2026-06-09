@@ -2,13 +2,13 @@
 from dataclasses import dataclass
 from domain.entities.specs import OpenAPISpec
 from infra.repositories.filters.specs import GetOpenAPISpecsFilters
-from infra.repositories.memory import BaseMemoryRepository
+from infra.repositories.memory import MemoryRepository
 from infra.repositories.specs.base import BaseOpenAPISpecsRepository
 
 
 @dataclass
 class MemoryOpenAPISpecRepository(
-    BaseMemoryRepository[OpenAPISpec, GetOpenAPISpecsFilters],
+    MemoryRepository[OpenAPISpec, GetOpenAPISpecsFilters],
     BaseOpenAPISpecsRepository,
 ):
 

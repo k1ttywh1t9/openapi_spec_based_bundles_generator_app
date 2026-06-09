@@ -51,8 +51,8 @@ Return the response in the specified JSON structure.
 
 
 class LLMConfig(BaseModel):
+    prompts: PromptLLMConfig = PromptLLMConfig()
     openai: OpenAILLMConfig
-    prompts: PromptLLMConfig
 
 
 class OpenAPIConfig(BaseModel):
@@ -72,6 +72,3 @@ class Settings(BaseSettings):
 
     llm: LLMConfig
     openapi: OpenAPIConfig
-
-
-settings = Settings()

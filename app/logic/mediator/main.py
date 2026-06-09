@@ -47,6 +47,8 @@ class Mediator(EventMediator, QueryMediator, CommandMediator):
             handlers: Iterable[EventHandler] = self.events_map[event.__class__]
             result.extend([await handler.handle(event) for handler in handlers])
 
+        return result
+
     async def handle_command(self, command: BaseCommand) -> Iterable[CR]:
         command_type = command.__class__
         handlers = self.commands_map.get(command_type)
