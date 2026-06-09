@@ -1,37 +1,24 @@
-from abc import ABC, abstractmethod
+# app/infra/repositories/resources/base.py
+from abc import ABC
 from dataclasses import dataclass
-from typing import Iterable
 
-from domain.entities.bundles import Bundle
-from domain.entities.messages import Chat, Message
-from infra.repositories.filters.messages import GetAllChatsFilters, GetMessagesFilters
-
-
-@dataclass
-class BaseBundlesRepository(ABC):
-    @abstractmethod
-    async def check_bundle_exists_by_title(self, title: str) -> bool: ...
-
-    @abstractmethod
-    async def get_bundle_by_oid(self, oid: str) -> Bundle | None: ...
-
-    @abstractmethod
-    async def add_bundle(self, bundle: Bundle) -> None: ...
-
-    # @abstractmethod
-    # async def get_all_bundles(
-    #     self, fitlers: GetAllBundlesFilters
-    # ) -> Iterable[bundle]: ...
+from domain.entities.resources import APIResource, APIResourcesBundle
+from infra.repositories.base import BaseRepository
+from infra.repositories.filters.resources import (
+    GetAPIResourcesBundleFilters,
+    GetAPIResourcesFilters,
+)
 
 
 @dataclass
-class BaseResourcesRepository(ABC):
-    @abstractmethod
-    async def add_resource(self, message: Message) -> None: ...
+class BaseAPIResourcesRepository(
+    BaseRepository[APIResource, GetAPIResourcesFilters], ABC
+):
+    pass
 
-    @abstractmethod
-    async def get_resources(
-        self,
-        chat_oid: str,
-        filters: GetMessagesFilters,
-    ) -> tuple[Iterable[Message], int]: ...
+
+@dataclass
+class BaseAPIResourcesBundleRepository(
+    BaseRepository[APIResourcesBundle, GetAPIResourcesBundleFilters], ABC
+):
+    pass

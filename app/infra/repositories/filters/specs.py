@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
+from infra.repositories.filters.base import GetFilters
+
 
 @dataclass
-class GetOpenAPISpecsFilters:
-    limit: int = 10
-    offset: int = 0
+class GetOpenAPISpecsFilters(GetFilters):
+    pass
