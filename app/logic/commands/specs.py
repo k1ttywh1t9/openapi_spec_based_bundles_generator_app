@@ -5,6 +5,7 @@ from domain.values.resources import Title
 from infra.repositories.specs.base import BaseOpenAPISpecsRepository
 from logic.commands.base import BaseCommand, CommandHandler
 from logic.exceptions.specs import OpenAPISpecWithThatTitleAlreadyExistsException
+from logic.mediator.main import Mediator
 
 
 @dataclass(frozen=True)
@@ -17,6 +18,7 @@ class ParseOpenAPISpecToEntityCommand(BaseCommand):
 class ParseOpenAPISpecToEntityCommandHandler(
     CommandHandler[ParseOpenAPISpecToEntityCommand, OpenAPISpec]
 ):
+    mediator: Mediator
     specs_repository: BaseOpenAPISpecsRepository
 
     async def handle(self, command: ParseOpenAPISpecToEntityCommand) -> OpenAPISpec:
@@ -25,9 +27,12 @@ class ParseOpenAPISpecToEntityCommandHandler(
 
         title = Title(value=command.title)
 
-        new_openapi_spec = OpenAPISpec.create(title=title)
-        # TODO: считать ивенты
-        await self.specs_repository.add_spec(new_openapi_spec)
-        await self._mediator.publish(new_openapi_spec.pull_events())
+        new_openapi_spec = OpenAPISpec.create(title=title, data=command.data)
 
-        return new_openapi_spec                                                    
+        await self.specs_repository.add_item(new_openapi_spec)
+
+        events = new_openapi_spec.pull_events()
+
+        await self.mediator.publish(events=events)
+
+        return new_openapi_spec

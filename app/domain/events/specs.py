@@ -8,4 +8,5 @@ from domain.events.base import BaseEvent
 class NewOpenAPISpecEntityCreatedEvent(BaseEvent):
     event_title: ClassVar[str] = "New OpenAPI Spec Entity Created"
 
+    spec_title: str
     spec_oid: str
