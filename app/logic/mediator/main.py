@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 
 from domain.events.base import BaseEvent
 from logic.commands.base import CR, CT, BaseCommand, CommandHandler
-from logic.events.base import ER, ET, EventHandler
+from logic.events.domain.base import ER, ET, EventHandler
 from logic.exceptions.mediator import CommandHandlersNotRegisteredException
 from logic.mediator.base.command import CommandMediator
 from logic.mediator.base.event import EventMediator

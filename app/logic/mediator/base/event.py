@@ -4,7 +4,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass, field
 
 from domain.events.base import BaseEvent
-from logic.events.base import ER, ET, EventHandler
+from logic.events.domain.base import ER, ET, EventHandler
 
 
 @dataclass(eq=False)

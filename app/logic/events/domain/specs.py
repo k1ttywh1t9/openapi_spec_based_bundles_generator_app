@@ -1,12 +1,13 @@
 from dataclasses import dataclass
+from typing import ClassVar
 
 from domain.events.specs import NewOpenAPISpecEntityCreatedEvent
-from logic.events.base import EventHandler
 from logic.events.converters import convert_event_to_broker_message
+from logic.events.domain.base import EventHandler
 
 
 @dataclass
-class NewOpenAPISpecEntityCreatedEventHandler(
+class NewOpenAPISpecEntityCreatedFromRawEventHandler(
     EventHandler[NewOpenAPISpecEntityCreatedEvent, None]
 ):
     async def handle(self, event: NewOpenAPISpecEntityCreatedEvent) -> None:

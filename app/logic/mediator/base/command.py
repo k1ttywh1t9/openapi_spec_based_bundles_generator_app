@@ -3,7 +3,7 @@ from collections import defaultdict
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 
-from logic.commands.base import CR, CT, BaseCommand, CommandHandler
+from logic.commands.base import CommandHandler, CR, CT, BaseCommand
 
 
 @dataclass(eq=False)

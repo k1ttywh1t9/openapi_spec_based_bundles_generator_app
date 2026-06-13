@@ -5,22 +5,23 @@ from domain.values.resources import Title
 from infra.repositories.specs.base import BaseOpenAPISpecsRepository
 from logic.commands.base import BaseCommand, CommandHandler
 from logic.exceptions.specs import OpenAPISpecWithThatTitleAlreadyExistsException
-from logic.mediator.main import Mediator
 
 
 @dataclass(frozen=True)
-class ParseOpenAPISpecToEntityCommand(BaseCommand):
+class CreateNewOpenAPISpecEntityFromRawCommand(BaseCommand):
     title: str
     data: dict
 
 
 @dataclass(frozen=True)
-class ParseOpenAPISpecToEntityCommandHandler(
-    CommandHandler[ParseOpenAPISpecToEntityCommand, OpenAPISpec]
+class CreateNewOpenAPISpecEntityFromRawCommandHandler(
+    CommandHandler[CreateNewOpenAPISpecEntityFromRawCommand, OpenAPISpec]
 ):
     specs_repository: BaseOpenAPISpecsRepository
 
-    async def handle(self, command: ParseOpenAPISpecToEntityCommand) -> OpenAPISpec:
+    async def handle(
+        self, command: CreateNewOpenAPISpecEntityFromRawCommand
+    ) -> OpenAPISpec:
         if await self.specs_repository.check_item_exists_by_title(command.title):
             raise OpenAPISpecWithThatTitleAlreadyExistsException(command.title)
 

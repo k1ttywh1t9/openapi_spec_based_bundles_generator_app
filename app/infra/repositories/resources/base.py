@@ -18,7 +18,7 @@ class BaseAPIResourcesRepository(
 
 
 @dataclass
-class BaseAPIResourcesBundleRepository(
+class BaseAPIResourcesBundlesRepository(
     BaseRepository[APIResourcesBundle, GetAPIResourcesBundleFilters], ABC
 ):
     pass

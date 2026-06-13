@@ -7,8 +7,8 @@ from infra.repositories.filters.resources import (
     GetAPIResourcesFilters,
 )
 from infra.repositories.memory import MemoryRepository
-from infra.repositories.resources import (
-    BaseAPIResourcesBundleRepository,
+from infra.repositories.resources.base import (
+    BaseAPIResourcesBundlesRepository,
     BaseAPIResourcesRepository,
 )
 
@@ -24,6 +24,6 @@ class MemoryAPIResourcesRepository(
 @dataclass
 class MemoryAPIResourcesBundleRepository(
     MemoryRepository[APIResourcesBundle, GetAPIResourcesBundleFilters],
-    BaseAPIResourcesBundleRepository,
+    BaseAPIResourcesBundlesRepository,
 ):
     pass
