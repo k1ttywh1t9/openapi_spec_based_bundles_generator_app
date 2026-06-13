@@ -26,7 +26,7 @@ class MessageBrokerConfig(BaseModel):
 
 
 class OpenAPIConfig(BaseModel):
-    path: str | None = None
+    path: str | None = BASE_DIR / "test_files/openapi.json"
     url: str | None = None
 
 
