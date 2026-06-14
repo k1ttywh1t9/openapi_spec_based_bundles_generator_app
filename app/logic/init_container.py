@@ -2,6 +2,7 @@ from functools import lru_cache
 
 from punq import Container, Scope
 
+from domain.events.specs import NewOpenAPISpecEntityCreatedEvent
 from infra.message_brokers.base import BaseMessageBroker
 from infra.message_brokers.memory import MemoryMessageBroker
 from infra.repositories.resources.base import (
@@ -16,10 +17,14 @@ from infra.repositories.specs.base import BaseOpenAPISpecsRepository
 from infra.repositories.specs.memory import MemoryOpenAPISpecRepository
 from logic.commands.resources import CreateAPIResourcesBundleFromSpecCommandHandler
 from logic.commands.specs import (
+    CreateNewOpenAPISpecEntityFromRawCommand,
     CreateNewOpenAPISpecEntityFromRawCommandHandler,
 )
 from logic.events.domain.specs import NewOpenAPISpecEntityCreatedFromRawEventHandler
-from logic.events.integrations.specs import OpenAPISpecEntityReceivedFromBrokerEventHandler
+from logic.events.integrations.specs import (
+    OpenAPISpecEntityReceivedFromBrokerEvent,
+    OpenAPISpecEntityReceivedFromBrokerEventHandler,
+)
 from logic.mediator.main import Mediator
 from settings.main import Settings
 
@@ -100,30 +105,30 @@ def _init_container() -> Container:
         )
 
         mediator.register_command(
-            command=CreateNewOpenAPISpecEntityFromRawCommandHandler,
+            command=CreateNewOpenAPISpecEntityFromRawCommand,
             command_handlers=[
                 create_new_openapi_spec_entity_from_raw_command_handler,
             ],
         )
 
         mediator.register_event(
-            event=NewOpenAPISpecEntityCreatedFromRawEventHandler,
+            event=NewOpenAPISpecEntityCreatedEvent,
             event_handlers=[
                 new_openapi_spec_entity_created_from_raw_event_handler,
             ],
         )
 
         mediator.register_command(
-            command=OpenAPISpecEntityReceivedFromBrokerEventHandler,
+            command=CreateAPIResourcesBundleFromSpecCommandHandler,
             command_handlers=[
-                openapi_spec_entity_received_from_broker_event_handler,
+                create_api_resources_bundle_from_spec_command_handler,
             ],
         )
 
         mediator.register_event(
-            event=CreateAPIResourcesBundleFromSpecCommandHandler,
+            event=OpenAPISpecEntityReceivedFromBrokerEvent,
             event_handlers=[
-                create_api_resources_bundle_from_spec_command_handler,
+                openapi_spec_entity_received_from_broker_event_handler,
             ],
         )
 
