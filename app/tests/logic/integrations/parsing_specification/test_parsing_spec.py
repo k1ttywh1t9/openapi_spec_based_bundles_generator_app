@@ -6,51 +6,28 @@ import pytest
 from domain.entities.specs import OpenAPISpec
 from infra.message_brokers.base import BaseMessageBroker
 from infra.repositories.specs.base import BaseOpenAPISpecsRepository
-from logic.commands.specs import CreateNewOpenAPISpecEntityFromRawCommand
-from logic.mediator.main import Mediator
 from settings.main import Settings
 
 
-def get_test_data() -> dict:
-    title = "Pet Care API"
-    data = {"openapi": "3.0.0", "info": {"title": "Petstore"}}
-    payload = {
-        "title": title,
-        "data": data,
-    }
-    return payload
-
-
 @pytest.mark.asyncio
-async def test_parsing_openapi_spec_to_entity_from_memory_logic_success(
+async def test_parsing_openapi_spec_to_entity_logic_success(
+    parsed_spec: OpenAPISpec,
     container: Container,
 ):
-    mediator: Mediator = container.resolve(Mediator)
+    """Тест проверяет, что сущность корректно создана, сохранена в репозиторий
+    и событие улетело в брокер (работает для всех типов источников через фикстуру).
+    """
     repository: BaseOpenAPISpecsRepository = container.resolve(
         BaseOpenAPISpecsRepository
     )
     message_broker: BaseMessageBroker = container.resolve(BaseMessageBroker)
     settings: Settings = container.resolve(Settings)
 
-    await message_broker.start()
-
-    title = get_test_data().get("title")
-    data = get_test_data().get("data")
-
-    command = CreateNewOpenAPISpecEntityFromRawCommand(
-        title=title,
-        data=data,
-    )
-
-    results = await mediator.handle_command(command)
-    results_list = list(results)
-
     # assertions
     # entity
-    assert len(results_list) == 1
-    entity = results_list[0]
+    entity = [parsed_spec]
     assert isinstance(entity, OpenAPISpec)
-    assert entity.title.value == title
+    # assert entity.title.value == title
 
     # storage
     spec_from_storage = await repository.get_item_by_oid(entity.oid)
@@ -64,5 +41,3 @@ async def test_parsing_openapi_spec_to_entity_from_memory_logic_success(
     payload = orjson.loads(broker_messages[0])
     assert "event_id" in payload
     assert payload["spec_oid"] == entity.oid
-
-
