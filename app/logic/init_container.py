@@ -15,7 +15,10 @@ from infra.repositories.resources.memory import (
 )
 from infra.repositories.specs.base import BaseOpenAPISpecsRepository
 from infra.repositories.specs.memory import MemoryOpenAPISpecRepository
-from logic.commands.resources import CreateAPIResourcesBundleFromSpecCommandHandler
+from logic.commands.resources import (
+    CreateAPIResourcesBundleFromSpecCommand,
+    CreateAPIResourcesBundleFromSpecCommandHandler,
+)
 from logic.commands.specs import (
     CreateNewOpenAPISpecEntityFromRawCommand,
     CreateNewOpenAPISpecEntityFromRawCommandHandler,
@@ -119,7 +122,7 @@ def _init_container() -> Container:
         )
 
         mediator.register_command(
-            command=CreateAPIResourcesBundleFromSpecCommandHandler,
+            command=CreateAPIResourcesBundleFromSpecCommand,
             command_handlers=[
                 create_api_resources_bundle_from_spec_command_handler,
             ],

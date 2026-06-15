@@ -28,8 +28,8 @@ def container(monkeypatch) -> Container:
         monkeypatch.setattr(message_broker, "_topics", defaultdict(list))
 
     if hasattr(
-        repository, "_storage"
+        repository, "_saved_items"
     ):  # поменяй на имя словаря внутри InMemoryOpenAPISpecsRepository, если оно другое
-        monkeypatch.setattr(repository, "_storage", {})
+        monkeypatch.setattr(repository, "_saved_items", [])
 
     return test_container

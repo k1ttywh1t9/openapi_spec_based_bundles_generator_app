@@ -42,6 +42,7 @@ class APIResource(BaseEntity):
 
 @dataclass(eq=False)
 class APIResourcesBundle(BaseEntity):
+    spec_oid: str
     api_resources: set[APIResource] = field(
         default_factory=set,
         kw_only=True,

@@ -1,3 +1,5 @@
+import pytest_asyncio
+
 from tests.logic.conftest import *  # noqa
 import pytest
 import orjson
@@ -15,13 +17,12 @@ def load_openapi_file(path) -> dict:
         return orjson.loads(f.read())
 
 
-@pytest.fixture(params=["memory", "file"])
+@pytest_asyncio.fixture(params=["memory", "file"])
 async def parsed_spec(request, container: Container) -> OpenAPISpec:
-    """Фикстура Шага 1: создаёт спеку в системе из разных источников.
+    """Step 1 Fixture: Create spec from various sources.
 
-    Любой тест, использующий эту фикстуру, автоматически выполнится дважды:
-    1. Для спеки из памяти (memory)
-    2. Для спеки из реального файла (file)
+    1. From memory
+    2. From file
     """
     mediator: Mediator = container.resolve(Mediator)
     message_broker: BaseMessageBroker = container.resolve(BaseMessageBroker)

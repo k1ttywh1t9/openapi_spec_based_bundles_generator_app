@@ -14,8 +14,10 @@ async def test_parsing_openapi_spec_to_entity_logic_success(
     parsed_spec: OpenAPISpec,
     container: Container,
 ):
-    """Тест проверяет, что сущность корректно создана, сохранена в репозиторий
-    и событие улетело в брокер (работает для всех типов источников через фикстуру).
+    """Testing that:
+    - entity has created correctly
+    - saved in repository
+    - event went to broker
     """
     repository: BaseOpenAPISpecsRepository = container.resolve(
         BaseOpenAPISpecsRepository
@@ -25,7 +27,7 @@ async def test_parsing_openapi_spec_to_entity_logic_success(
 
     # assertions
     # entity
-    entity = [parsed_spec]
+    entity = parsed_spec
     assert isinstance(entity, OpenAPISpec)
     # assert entity.title.value == title
 
