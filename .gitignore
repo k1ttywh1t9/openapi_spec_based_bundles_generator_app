@@ -227,3 +227,5 @@ generated_code/**
 generated_code/*
 generated_code
 repomix-output.xml
+**/gitignore-dir/**
+gitignore-dir/
